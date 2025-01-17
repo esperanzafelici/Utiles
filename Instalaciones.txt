@@ -1,0 +1,515 @@
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MANUAL DE INSTALACIÓN DE PROGRAMAS ÚTILES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Sistema operativo: Ubuntu 20.04
+Última actualización del manual: Octubre 2022
+
+
+!!!!!!!!!!! Notas !!!!!!!!!!!
+
+I) Previo a la instalación, REVISAR LAS PÁGINAS OFICIALES DE CADA PROGRAMA, para verificar que no hayan modificaciones en los procedimientos. 
+
+II) La instalación tiene cierto orden, porque para algunos programas se necesita tener previamente instalados otros. Si se instala desordenadamente puede que haya que instalar algunas cosas en el medio o que haya algún error. De todas formas no todos los programas son obligatorios, queda a criterio de cada persona
+
+III) Cuando pide descargar un installer, hay una copia de esos archivos que se necesitan en el drive (ver ítem I!)
+
+VI) Abreviaturas:
+~$: significa escribir/pegar en la command line
+¡tab¡ significa presionar la tecla "tab" (dobles flechitas a la izquierda, por lo general). Comúnmente se usa para autocompletar
+
+V) Antes que nada:
+	~$:
+sudo apt-get upgrade
+sudo apt-get update
+
+VI) Para correr scripts de bash, es necesario:
+	~$:
+mkdir ~/bin
+if [ -d "$HOME/bin" ] ; then   PATH="$PATH:$HOME/bin"; fi
+export PATH="$PATH:/home/esperanza/bin"
+source ~/.profile
+	Cerrar sesión y abrirla de nuevo
+	!!Recordar!! Los scripts de bash se hacen ejecutables con ~$:
+chmod u+x script
+	y hay que agregarles arriba del todo (1ra línea):
+#!/usr/bin/env pyhton // #!/usr/bin/env bash // 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Lista de programas:
+
+sudo ubuntu-drivers autoinstall
+
+-dpkg:
+	1.~$:
+sudo apt-get install dpkg
+sudo apt install dpkg-sig
+
+-Chrome
+	1.~$:
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+
+-Spotify
+	1.~$:
+snap install spotify
+
+
+
+-curl
+	~$:
+sudo apt install curl -y
+
+-R base
+	1.~$:
+sudo apt install --no-install-recommends software-properties-common dirmngr
+wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu ~$(lsb_release -cs)-cran40/"
+sudo apt install --no-install-recommends r-base
+
+-RStudio
+	1.Download the installer y extraer en home
+	2.~$:
+gpg --keyserver keyserver.ubuntu.com --recv-keys 3F32EE77E331692F
+dpkg-sig --verify rstudio-2022.07.2-576-amd64.deb 
+	Alternativa: 
+dpkg-sig --verify rstudio-¡tab¡
+	3. Clickear rstudio-2022.07.2-576-amd64.deb y cuando se abra la app del software de Ubuntu, darle instalar a RStudio
+	4. Personalmente, me gusta usar el tema Chaos (Tools --> Global Options --> Appearance --> Editor theme)
+
+-Librerías de R:
+	1.~$
+sudo apt-get install libcurl4-openssl-dev
+sudo apt-get install libxml2 libxml2-dev
+sudo apt-get install libssl-dev
+sudo apt-get install libcurl4-doc libidn11-dev libkrb5-dev libldap2-dev librtmp-dev libssh2-1-dev icu-doc libssl-dev libssl-doc doc-base krb5-doc libgcrypt20-doc gmp-doc libgmp10-doc libmpfr-dev gnutls-bin gnutls-doc krb5-user
+sudo apt-get install gfortran
+sudo apt-get install libblas-dev liblapack-dev
+sudo apt-get install cmake
+sudo apt-get install -y libfontconfig1-dev libharfbuzz-dev libfribidi-dev
+sudo apt-get install -y libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev
+	2.En la command line de RStudio, escribir:
+install.packages("tidyverse")
+install.packages("ggplot2")
+install.packages("viridis")
+install.packages("ggExtra")
+install.packages("ggpubr")
+install.packages("ggVennDiagram")
+install.packages("treemap")
+install.packages("RColorBrewer")
+install.packages("dplyr")
+install.packages("GGally")
+install.packages("Matrix")
+install.packages("MatrixModels")
+install.packages("RcppEigen")
+install.packages("mvtnorm")
+install.packages("multcomp")
+install.packages("car")
+install.packages("textshaping")
+install.packages("ragg")
+install.packages("devtools")
+devtools::install_github("DoseResponse/drcData")
+devtools::install_github("DoseResponse/drc")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(version = "3.15")
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install(c("Biostrings","bio3d","BALCONY","seqinr","LowMACA"))
+install.packages("micropan")
+install.packages("microseq")
+
+-Perl
+	~$:
+wget https://www.cpan.org/src/5.0/perl-5.36.0.tar.gz
+tar -xzf perl-5.36.0.tar.gz
+cd perl-5.36.0
+./Configure -des -Dprefix=$HOME/localperl
+make
+make test
+make install
+
+-cpanm
+	~$:
+sudo apt install cpanminus
+
+-Módulos de Perl
+	~$:
+cpanm BioPerl    
+
+-Python
+	~$:
+sudo apt-get install python3
+sudo apt-get install python3-pip
+
+-Anaconda: 
+	1.Download the installer y extraer en home
+	2.~$:
+sudo apt-get install libgl1-mesa-glx libegl1-mesa libxrandr2 libxrandr2 libxss1 libxcursor1 libxcomposite1 libasound2 libxi6 libxtst6
+shasum -a 256 ~/An ¡tab¡
+bash ~/Anaconda3-2022.05-Linux-x86_64.sh
+	3.Press Enter to review the license agreement. Then press and hold Enter to scroll.
+	Enter “yes” to agree to the license agreement.
+	Use Enter to accept the default install location
+	~$:
+source anaconda3/bin/activate
+conda init
+conda config --set auto_activate_base true
+
+-Módulos de Python
+	*matplotlib
+	~$:
+conda install -c conda-forge matplotlib
+	*numpy
+	~$:
+conda install -c anaconda numpy
+	*torch
+	~$:
+conda install -c pytorch pytorch
+	*tqdm
+	~$:
+conda install -c conda-forge tqdm
+	*selenium
+	1.~$:
+conda install -c conda-forge selenium
+	2.pegar el driver en ~/bin
+	*pyperclip
+	~$:
+sudo apt-get install xclip
+conda install -c conda-forge pyperclip
+	
+-Docker
+	1.~$:
+sudo apt-get install     ca-certificates     curl     gnupg     lsb-release
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+	2. Cerrar y volver a abrir sesión
+	3. chequear instalación con ~$:
+sudo docker run hello-world
+##alternativa (usar para instalar RAPT)
+	1. $:
+sudo snap install docker
+sudo apt update
+sudo apt install -y docker.io
+sudo usermod -aG docker $USER
+exit 
+	2. Cerrar y volver a abrir sesión
+	3. chequear instalación con ~$:
+sudo docker run hello-world
+
+-Seqkit:
+	1.~$:
+conda install -c bioconda seqkit
+
+-Blast
+	1.~$:
+sudo apt install ncbi-blast+
+
+-EMBOSS
+	~$:
+conda install -c bioconda emboss
+
+-PSORTb:
+	$~:
+sudo docker pull brinkmanlab/psortb_commandline:1.0.2
+wget https://raw.githubusercontent.com/brinkmanlab/psortb_commandline_docker/master/psortb
+chmod +x psortb
+
+-SignalP
+	1. descargar instalador y extraer en home (chequear que la carpeta sea signalp-6-package, sacarla de signalp-6-fast)
+	2.~$:
+cd ~
+pip install signalp-6-package/
+SIGNALP_DIR=$(python3 -c "import signalp; import os; print(os.path.dirname(signalp.__file__))" )
+cp -r signalp-6-package/models/* $SIGNALP_DIR/model_weights/
+
+-SPAAN:
+	1.Descargar el instalador, extraer en home y renombrar carpeta a : SPAAN_64_bit
+	2.~$:
+cd ~/SPAAN_64_bit
+gcc -lm standard.c -o standard.o
+gcc -lm filter.c -o filter.o
+gcc -lm annotate.c -o annotate.o 
+gcc -lm finalp1.c -o finalp1.o
+chmod +x standard
+chmod +x filter
+chmod +x annotate 
+chmod +x finalp1
+chmod +x askquery
+cd ~/SPAAN_64_bit/AAcompo
+gcc -lm recognize.c -o recognize.o
+gcc -lm AAcompo.c -o AAcompo.o
+chmod +x recognize
+chmod +x AAcompo
+cd ~/SPAAN_64_bit/hdr
+gcc -lm hdr.c -o hdr.o
+chmod +x hdr
+cd ~/SPAAN_64_bit/multiplets
+gcc -lm multiplets.c -o multiplets.o
+chmod +x multiplets
+cd ~/SPAAN_64_bit/dipep
+gcc -lm querydipep.c -o querydipep.o
+chmod +x querydipep
+cd ~/SPAAN_64_bit/charge
+gcc -lm charge.c -o charge.o
+chmod +x charge
+
+-Mafft
+	1.Descargar instalador y pegar en home
+	2.~$
+sudo dpkg -i mafft ¡tab¡
+alternativa: doble click
+
+-Artemis
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda install artemis
+
+-suds (para script de TOPCONS)
+	1.~$
+conda install -c conda-forge suds-jurko
+
+
+sudo fallocate -l 1G /swapfile 
+sudo chmod 600 /swapfile 
+sudo mkswap /swapfile 
+sudo swapon /swapfile 
+sudo cp /etc/fstab /etc/fstab.bak 
+echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+
+conda install mamba -n base -c conda-forge
+
+-Bactopia
+	1.~$
+mamba create -n bactopia -c conda-forge -c bioconda bactopia
+conda activate bactopia
+
+-gimp
+	1.~$
+sudo snap install gimp
+
+-cd-hit
+	1.~$
+conda install -c "bioconda/label/cf201901" cd-hit
+
+-Phylip
+	1. descargar el ejecutable y hacerle click
+	
+-MCL
+	1.descargar el script install-this-mcl.sh y pegarlo en bin
+	2.$
+install-this-mcl.sh
+
+
+-RAPT
+	1.$
+curl -sSLo rapt.tar.gz https://github.com/ncbi/rapt/releases/download/v0.5.4/rapt-v0.5.4.tar.gz
+tar -xzf rapt.tar.gz && rm -f rapt.tar.gz
+
+
+-BPGA
+	1. Instalar dependencias:
+sudo apt-get install gnuplot
+sudo apt-get install ghostscript
+sudo add-apt-repository ppa:ubuntu-wine/ppa
+sudo apt-get update
+sudo apt-get install wine
+	2.Descargar tar de BPGA y ejecutable de usearch.
+	3. Extraer el tar de bpga. 
+	4. Pegar en la carpeta bin (que apareció en la carpeta extraída) el ejecutable de usearch
+	5. chmod +x BPGA ¡tab¡
+	6. para ejecutar, ./BPGA ¡tab¡
+	
+	
+Roary:
+Required dependencies
+    bedtools --> descargar ejecutable. Luego: chmod a+x bedtools y pegarlo en carpeta bin
+    cd-hit
+    ncbi-blast+
+    mcl
+    parallel --> sudo apt-get install parallel
+    prank --> descargar tar y extraerlo en home. Luego: echo "export PATH=$PATH:/home/$USER/prank/bin" >> ~/.bash_profile
+    mafft
+    fasttree --> descargar tar. Extraer ejecutable y chmod a+x FastTree. Luego pegarlo en bin
+sudo apt-get install bedtools cd-hit ncbi-blast+ mcl parallel cpanminus prank mafft fasttree
+sudo cpanm -f Bio::Roary
+
+Bio:
+	1:$
+conda create -n test 
+conda activate test
+pip install bio
+
+teamviewer
+	1.descargar instalador
+	2.hacerle click y abrir con instalador de software
+
+
+bwa-mem2
+conda install -c bioconda bwa-mem2 
+ 
+samtools
+conda install -c bioconda samtools	
+	
+bcftools
+sudo apt-get install libopenblas-dev
+conda install -c bioconda bcftools
+ 
+alien hunter
+descargar la carpeta y descomprimir
+
+Prodigal
+descargar el zip, extraerlo, moverse dentro de la carpeta que se descomprimió y $:
+make install
+
+SANS serif
+extraer el tar, cd a la carpeta que se extrajo y $:
+make
+
+FigTree
+ conda install -c bioconda figtree 
+
+Microbe Annotator
+conda config --add channels conda-forge
+conda config --add channels bioconda
+conda config --add channels cruizperez
+conda create -n microbeannotator python=3.7 pip microbeannotator=2.0.5
+conda activate microbeannotator
+pip install hmmer==0.1.0
+pip install biopython
+pip install wget
+
+Mummer: 
+Descargar instalador, extraerlo en home y entrar a la carpeta que se extrajo.
+sudo apt install csh
+make check
+make install
+nano .bashrc
+editar el .bashrc: ir al fondo y pegar: export PATH="$HOME/MUMmer3.23:$PATH"
+guardar y cerrar la terminal
+
+svn
+sudo apt install subversion
+
+Ratt:
+instalar Mummer y svn
+svn co "https://svn.code.sf.net/p/ratt/code/" ratt 
+nano .bashrc
+editar el .bashrc: ir al fondo y pegar: 
+RATT_HOME=~/ratt/; export RATT_HOME 
+RATT_CONFIG=$RATT_HOME/RATT.config_bac; export RATT_CONFIG
+
+Fastqc
+descargar ejecutable
+moverse a la carpeta donde se descargó y descomprimió (ej: home) y:
+chmod 755 fastqc
+ 
+GIPSy
+descargar la carpeta, extraer en home
+$:
+java -jar GIPSy.Installer.jar
+
+RAxML
+conda install -c bioconda raxml
+
+DIAMOND
+conda install -c bioconda diamond
+
+TreeTime
+conda install -c bioconda treetime
+
+
+PanX
+instalar raxml, MCL, mafft, fasttree, DIAMOND, treetime
+git clone https://github.com/neherlab/pan-genome-analysis.git
+
+get_homologues
+docker pull csicunam/get_homologues
+docker run --rm -it csicunam/get_homologues:latest /bin/bash
+cd /get_homologues/
+perl install.pl 
+mkdir -p $HOME/data/genomes
+exit
+docker run --rm -dit -P --name get_phylo -v ~/data/genomes:/home/you/data vinuesa/get_phylomarkers:latest /bin/bash
+docker attach <ID> # use the crypto ID printed to STDOUT by the previous command, i.e.: docker attach c99db48a540e98686cf5a984a0bd2f6c085301686f3b75dddd2c513ba42ab0ac
+exit
+sudo groupadd docker
+sudo usermod -aG docker $USER
+Log out and log back in so that your group membership is re-evaluated.
+
+ABySS
+conda install -c bioconda arcs tigmint
+conda install -c bioconda -c conda-forge abyss
+
+Aliview
+Descargar el instalador en home
+sudo ./aliview.install.run
+
+Spades
+sudo apt install zlib1g
+sudo apt-get install libbz2-dev
+ wget http://cab.spbu.ru/files/release3.15.4/SPAdes-3.15.4.tar.gz
+    tar -xzf SPAdes-3.15.4.tar.gz
+    cd SPAdes-3.15.4
+    ./spades_compile.sh
+    
+    PGAP
+   wget -O pgap.py https://github.com/ncbi/pgap/raw/prod/scripts/pgap.py
+   chmod +x pgap.py
+   ./pgap.py --update
+   
+cogclassifier
+conda install -c bioconda -c conda-forge cogclassifier
+
+rps blast
+descargar el instalador y pegarlo en bin
+
+DeepTMHMM
+pip3 install pybiolib
+**Nota** Puede que esto sea necesario:
+pip install --upgrade --user pyqtwebengine==5.12
+pip install --upgrade --user pyqt5==5.12
+
+Jupyter notebooks / Jupyter Lab + extensions
+conda install -c conda-forge notebook
+conda install -c conda-forge nb_conda_kernels
+conda install -c conda-forge jupyterlab
+conda install -c conda-forge nb_conda_kernels
+conda install -c conda-forge jupyter_contrib_nbextensions
+*abrir R y escribir:
+install.packages("devtools")
+devtools::install_github("IRkernel/IRkernel")
+IRkernel::installspec()
+
+
+
+agat (https://agat.readthedocs.io/en/latest/index.html)
+requisitos: BioPerl
+cpanm install Clone Graph::Directed LWP::UserAgent Carp Sort::Naturally File::Share File::ShareDir::Install Moose YAML LWP::Protocol::https Term::ProgressBar
+sudo apt install libfile-sharedir-install-perl
+descargar de aca https://metacpan.org/pod/File::Share, meter en home y entrar a la carpeta:
+perl Makefile.PL                                # Check all the dependencies*
+make                                            # Compile
+make test                                       # Test
+sudo make install                                    # Install
+idem a lo anterior con: https://metacpan.org/dist/Sort-Naturally
+git clone https://github.com/NBISweden/AGAT.git # Clone AGAT
+cd AGAT                                         # move into AGAT folder
+perl Makefile.PL                                # Check all the dependencies*
+make                                            # Compile
+make test                                       # Test
+sudo make install                                    # Install
+
+prokka
+sudo apt-get install libdatetime-perl libxml-simple-perl libdigest-md5-perl git default-jre bioperl
+sudo cpan Bio::Perl
+git clone https://github.com/tseemann/prokka.git $HOME/prokka
+$HOME/prokka/bin/prokka --setupdb
+
+para ggimage, primero:
+sudo add-apt-repository -y ppa:cran/imagemagick
+sudo apt-get update
+sudo apt-get install -y libmagick++-dev
