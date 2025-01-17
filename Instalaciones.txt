@@ -245,17 +245,24 @@ gcc -lm AAcompo.c -o AAcompo.o
 chmod +x recognize
 chmod +x AAcompo
 cd ~/SPAAN_64_bit/hdr
+gcc -lm recognize.c -o recognize.o
 gcc -lm hdr.c -o hdr.o
 chmod +x hdr
+chmod +x recognize
 cd ~/SPAAN_64_bit/multiplets
 gcc -lm multiplets.c -o multiplets.o
 chmod +x multiplets
 cd ~/SPAAN_64_bit/dipep
 gcc -lm querydipep.c -o querydipep.o
 chmod +x querydipep
+gcc -lm recognize.c -o recognize.o
+chmod +x recognize
 cd ~/SPAAN_64_bit/charge
 gcc -lm charge.c -o charge.o
 chmod +x charge
+gcc -lm recognize.c -o recognize.o
+chmod +x recognize
+
 
 -Mafft
 	1.Descargar instalador y pegar en home
